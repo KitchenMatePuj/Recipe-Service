@@ -1,0 +1,38 @@
+# Ignorar archivos de caché de Python
+__pycache__/
+*.py[cod]
+
+# Ignorar entorno virtual
+.venv/
+env/
+venv/
+
+# Ignorar dependencias instaladas
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Ignorar bases de datos SQLite
+*.sqlite3
+*.db
+
+# Ignorar archivos de configuración locales
+*.env
+.env.local
+.env.*.local
+
+# Ignorar logs
+*.log
+logs/
+debug.log
+
+# Ignorar archivos de migración en SQLAlchemy
+migrations/
+alembic/
+
+# Ignorar archivos de caché de módulos
+src/main/python/__pycache__/
+src/main/python/config/__pycache__/
+src/main/python/controller/__pycache__/
+src/main/python/models/__pycache__/
+src/main/python/services/__pycache__/
+src/main/python/transformers/__pycache__/

@@ -1,0 +1,11 @@
+import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
+
+class ApplicationProperties:
+    DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./test.db")
+    APP_PORT = int(os.getenv("APP_PORT", 8000))
+    APP_HOST = os.getenv("APP_HOST", "0.0.0.0")
+    DEBUG = os.getenv("DEBUG", "True").lower() == "true"
