@@ -1,28 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="ee05629e-6a6a-45c2-9c7b-d24b6452f08c" name="Changes" comment="" />
+    <list default="true" id="ee05629e-6a6a-45c2-9c7b-d24b6452f08c" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/python/Application.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/python/Application.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/python/controller/recipe_step_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/python/controller/recipe_step_controller.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/python/models/ingredient.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/python/models/ingredient.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/python/transformers/recipe_step_transformer.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/python/transformers/recipe_step_transformer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/python/transformers/recipe_transformer.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/python/transformers/recipe_transformer.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 0
-}]]></component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="FastAPI main" />
+        <option value="FastAPI test_main" />
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
   <component name="ProjectId" id="2sHYkvPa60iogyiBC2LUfgYwU9g" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;develop-carlos&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="Recipe-Service" type="Python.FastAPI">
       <option name="file" value="$PROJECT_DIR$/main.py" />
@@ -56,8 +88,17 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1738114114530</updated>
-      <workItem from="1738114115545" duration="12000" />
+      <workItem from="1738114115545" duration="4235000" />
+      <workItem from="1738542840494" duration="50000" />
+      <workItem from="1740341107957" duration="607000" />
+      <workItem from="1740410342373" duration="113000" />
+      <workItem from="1741572347431" duration="3186000" />
+      <workItem from="1741718285615" duration="116000" />
+      <workItem from="1742142898099" duration="11205000" />
     </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
 </project>
