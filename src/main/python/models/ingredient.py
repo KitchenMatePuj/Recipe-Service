@@ -9,5 +9,5 @@ class Ingredient(Base):
     name = Column(String(255), nullable=False)
     measurement_unit = Column(String(50), nullable=False)
 
-    recipes = relationship("RecipeIngredient", back_populates="ingredient")
+    recipe = relationship("Recipe", back_populates="ingredients")
     recipe_id = Column(Integer, ForeignKey("recipes.recipe_id"))

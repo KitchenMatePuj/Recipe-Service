@@ -3,23 +3,22 @@ from typing import Optional
 import datetime
 
 class RecipeBase(BaseModel):
-    title: str
-    instructions: str
-    hashtags: Optional[str] = None
-    rating: Optional[float] = None
+    title: Optional[str] = None
     duration: Optional[int] = None
     meal_type: Optional[str] = None
-    cuisine_type: Optional[str] = None
-    dietary_restrictions: Optional[str] = None
     total_servings: Optional[int] = None
-    author_user_id: int
+    author_user_id: Optional[int] = None
 
 class RecipeCreate(RecipeBase):
-    pass
+    title: str
+    author_user_id: int
 
-class RecipeUpdate(RecipeBase):
+class RecipeUpdate(BaseModel):
     title: Optional[str] = None
-    instructions: Optional[str] = None
+    duration: Optional[int] = None
+    meal_type: Optional[str] = None
+    total_servings: Optional[int] = None
+    author_user_id: Optional[int] = None
 
 class RecipeResponse(RecipeBase):
     recipe_id: int
@@ -27,4 +26,4 @@ class RecipeResponse(RecipeBase):
     updated_at: datetime.datetime
 
     class Config:
-        orm_mode = True
+        from_attributes = True
