@@ -5,12 +5,9 @@ from src.main.python.ApplicationProperties import ApplicationProperties
 
 from src.main.python.models.recipe import Recipe
 from src.main.python.models.ingredient import Ingredient
-from src.main.python.models.recipeIngredient import RecipeIngredient
 from src.main.python.models.comment import Comment
 from src.main.python.models.category import Category
-from src.main.python.models.photo import Photo
-from src.main.python.models.shoppingList import ShoppingList
-from src.main.python.models.shoppingListItem import ShoppingListItem
+from src.main.python.models.recipe_step import RecipeStep
 
 
 engine = create_engine(
@@ -23,14 +20,11 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
 
-Recipe.__table__.create(bind=engine, checkfirst=True)
-ShoppingList.__table__.create(bind=engine, checkfirst=True)
-Ingredient.__table__.create(bind=engine, checkfirst=True)
-RecipeIngredient.__table__.create(bind=engine, checkfirst=True)
-Comment.__table__.create(bind=engine, checkfirst=True)
 Category.__table__.create(bind=engine, checkfirst=True)
-Photo.__table__.create(bind=engine, checkfirst=True)
-ShoppingListItem.__table__.create(bind=engine, checkfirst=True)
+Recipe.__table__.create(bind=engine, checkfirst=True)
+Ingredient.__table__.create(bind=engine, checkfirst=True)
+Comment.__table__.create(bind=engine, checkfirst=True)
+RecipeStep.__table__.create(bind=engine, checkfirst=True)
 
 def get_db():
     db = SessionLocal()

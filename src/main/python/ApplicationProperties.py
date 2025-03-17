@@ -9,3 +9,6 @@ class ApplicationProperties:
     APP_PORT = int(os.getenv("APP_PORT", 8000))
     APP_HOST = os.getenv("APP_HOST", "0.0.0.0")
     DEBUG = os.getenv("DEBUG", "True").lower() == "true"
+
+    RABBITMQ_URL = os.getenv("RABBITMQ_URL", "amqp://guest:guest@localhost/")
+    RABBITMQ_QUEUE = os.getenv("RABBITMQ_QUEUE", "notification_queue")
