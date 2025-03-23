@@ -7,5 +7,6 @@ def build_recipe_event(recipe, event_type: str):
         "title": recipe.title,
         "keycloak_user_id": recipe.keycloak_user_id,
         "cooking_time": recipe.cooking_time,
-        "rating_avg": recipe.rating_avg
+        "rating_avg": recipe.rating_avg,
+        "categories": [recipe.category.name] if recipe.category else []
     }
