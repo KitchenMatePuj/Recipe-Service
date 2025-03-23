@@ -1,33 +1,22 @@
-from sqlalchemy import Column, Integer, String, DateTime, Float, ForeignKey
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Float
 from sqlalchemy.orm import relationship
-from datetime import datetime
 from src.main.python.models import Base
-
 
 class Recipe(Base):
     __tablename__ = "recipes"
 
-    recipe_id = Column(Integer, primary_key=True, index=True)
+    recipe_id = Column(Integer, primary_key=True, autoincrement=True)
+    category_id = Column(Integer, ForeignKey("categories.category_id"), nullable=False)
     title = Column(String(255), nullable=False)
+    created_at = Column(DateTime, nullable=False)
+    updated_at = Column(DateTime, nullable=False)
+    cooking_time = Column(Integer, nullable=False)
+    food_type = Column(String(100), nullable=False)
+    total_portions = Column(Integer, nullable=False)
+    keycloak_user_id = Column(String(255), nullable=False)
+    rating_avg = Column(Float, default=0.0)
 
-    created_at = Column(DateTime, default=datetime.utcnow)
-    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
-    duration = Column(Integer)
-    meal_type = Column(String(100))
-    total_servings = Column(Integer)
-    author_user_id = Column(Integer)
-
-    # NEW: Foreign key to Category
-    category_id = Column(Integer, ForeignKey("categories.category_id"))
-
-    # Relationship back to Category
     category = relationship("Category", back_populates="recipes")
-
-    # Relationship to ingredients (unchanged)
-    ingredients = relationship("Ingredient", back_populates="recipe")
-
-    # Relationship to comments (unchanged)
-    comments = relationship("Comment", back_populates="recipe")
-
-    # NEW: Relationship to the step-by-step instructions table
+    ingredients = relationship("Ingredient", back_populates="recipe", cascade="all, delete-orphan")
     steps = relationship("RecipeStep", back_populates="recipe", cascade="all, delete-orphan")
+    comments = relationship("Comment", back_populates="recipe", cascade="all, delete-orphan")

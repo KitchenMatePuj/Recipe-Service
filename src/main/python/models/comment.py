@@ -8,7 +8,6 @@ class Comment(Base):
 
     comment_id = Column(Integer, primary_key=True, index=True)
     recipe_id = Column(Integer, ForeignKey("recipes.recipe_id"))
-    author_user_id = Column(Integer)
     rating = Column(Float)
     text = Column(String(2000), nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow)
