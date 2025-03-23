@@ -5,6 +5,8 @@ from src.main.python.models.recipe import Recipe
 from src.main.python.rabbit.rabbit_sender import rabbit_client
 from src.main.python.transformers.recipe_transformer import RecipeRequest, RecipeResponse
 from src.main.python.rabbit.events.recipe_events import build_recipe_event
+from src.main.python.repository.recipe_repository import RecipeRepository
+
 
 def create_recipe(db: Session, recipe_data: RecipeRequest):
     new_recipe = Recipe(**recipe_data.dict())
@@ -38,3 +40,7 @@ def delete_recipe(db: Session, recipe_id: int):
         db.delete(recipe)
         db.commit()
     return recipe
+
+def get_recipes_by_user(db: Session, keycloak_user_id: str):
+    recipes = RecipeRepository.get_recipes_by_keycloak_user_id(db, keycloak_user_id)
+    return [RecipeResponse.model_validate(recipe, from_attributes=True) for recipe in recipes]

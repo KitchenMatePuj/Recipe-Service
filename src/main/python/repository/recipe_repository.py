@@ -35,3 +35,8 @@ class RecipeRepository:
             db.delete(recipe)
             db.commit()
         return recipe
+
+    @staticmethod
+    def get_recipes_by_keycloak_user_id(db: Session, keycloak_user_id: str):
+        return db.query(Recipe).filter(Recipe.keycloak_user_id == keycloak_user_id).all()
+

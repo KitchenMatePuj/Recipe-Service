@@ -27,6 +27,3 @@ app.include_router(category_router)
 app.include_router(recipe_router)
 app.include_router(recipe_step_router)
 
-@app.get("/")
-def root():
-    return {"message": "API is up and running!"}

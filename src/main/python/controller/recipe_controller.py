@@ -7,7 +7,7 @@ from src.main.python.services.recipe_service import (
     get_recipe,
     list_recipes,
     update_recipe,
-    delete_recipe
+    delete_recipe, get_recipes_by_user
 )
 from src.main.python.transformers.recipe_transformer import RecipeRequest, RecipeResponse
 
@@ -46,3 +46,8 @@ def delete_recipe_endpoint(recipe_id: int, db: Session = Depends(get_db)):
     if not deleted_recipe:
         raise HTTPException(status_code=404, detail="Recipe not found")
     return
+
+@router.get("/user/{keycloak_user_id}", response_model=List[RecipeResponse])
+def list_recipes_by_user(keycloak_user_id: str, db: Session = Depends(get_db)):
+    return get_recipes_by_user(db, keycloak_user_id)
+
