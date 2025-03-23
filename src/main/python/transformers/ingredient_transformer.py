@@ -6,7 +6,7 @@ class IngredientBase(BaseModel):
     measurement_unit: str
 
 class IngredientCreate(IngredientBase):
-    pass
+    recipe_id: int
 
 class IngredientUpdate(IngredientBase):
     name: Optional[str] = None

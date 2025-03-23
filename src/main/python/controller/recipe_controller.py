@@ -15,8 +15,8 @@ router = APIRouter(prefix="/recipes", tags=["Recipes"])
 
 
 @router.post("/", response_model=RecipeResponse)
-def create_recipe_endpoint(recipe: RecipeRequest, db: Session = Depends(get_db)):
-    return create_recipe(db, recipe)
+async def create_recipe_endpoint(recipe: RecipeRequest, db: Session = Depends(get_db)):
+    return await create_recipe(db, recipe)
 
 
 @router.get("/", response_model=List[RecipeResponse])
@@ -33,11 +33,11 @@ def get_recipe_endpoint(recipe_id: int, db: Session = Depends(get_db)):
 
 
 @router.put("/{recipe_id}", response_model=RecipeResponse)
-def update_recipe_endpoint(recipe_id: int, recipe_update: RecipeRequest, db: Session = Depends(get_db)):
+async def update_recipe_endpoint(recipe_id: int, recipe_update: RecipeRequest, db: Session = Depends(get_db)):
     updated_recipe = update_recipe(db, recipe_id, recipe_update)
     if not updated_recipe:
         raise HTTPException(status_code=404, detail="Recipe not found")
-    return updated_recipe
+    return await updated_recipe
 
 
 @router.delete("/{recipe_id}", status_code=204)
