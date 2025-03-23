@@ -9,13 +9,13 @@ from src.main.python.services.recipe_service import (
     update_recipe,
     delete_recipe
 )
-from src.main.python.transformers.recipe_transformer import RecipeCreate, RecipeUpdate, RecipeResponse
+from src.main.python.transformers.recipe_transformer import RecipeRequest, RecipeResponse
 
 router = APIRouter(prefix="/recipes", tags=["Recipes"])
 
 
 @router.post("/", response_model=RecipeResponse)
-def create_recipe_endpoint(recipe: RecipeCreate, db: Session = Depends(get_db)):
+def create_recipe_endpoint(recipe: RecipeRequest, db: Session = Depends(get_db)):
     return create_recipe(db, recipe)
 
 
@@ -33,7 +33,7 @@ def get_recipe_endpoint(recipe_id: int, db: Session = Depends(get_db)):
 
 
 @router.put("/{recipe_id}", response_model=RecipeResponse)
-def update_recipe_endpoint(recipe_id: int, recipe_update: RecipeUpdate, db: Session = Depends(get_db)):
+def update_recipe_endpoint(recipe_id: int, recipe_update: RecipeRequest, db: Session = Depends(get_db)):
     updated_recipe = update_recipe(db, recipe_id, recipe_update)
     if not updated_recipe:
         raise HTTPException(status_code=404, detail="Recipe not found")

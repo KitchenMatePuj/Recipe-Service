@@ -2,28 +2,31 @@ from pydantic import BaseModel
 from typing import Optional
 import datetime
 
-class RecipeBase(BaseModel):
-    title: Optional[str] = None
-    duration: Optional[int] = None
-    meal_type: Optional[str] = None
-    total_servings: Optional[int] = None
-    author_user_id: Optional[int] = None
+from pydantic import BaseModel
+from datetime import datetime
 
-class RecipeCreate(RecipeBase):
+class RecipeRequest(BaseModel):
+    category_id: int
     title: str
-    author_user_id: int
+    created_at: datetime
+    updated_at: datetime
+    cooking_time: int
+    food_type: str
+    total_portions: int
+    keycloak_user_id: str
+    rating_avg: float = 0.0
 
-class RecipeUpdate(BaseModel):
-    title: Optional[str] = None
-    duration: Optional[int] = None
-    meal_type: Optional[str] = None
-    total_servings: Optional[int] = None
-    author_user_id: Optional[int] = None
-
-class RecipeResponse(RecipeBase):
+class RecipeResponse(BaseModel):
     recipe_id: int
-    created_at: datetime.datetime
-    updated_at: datetime.datetime
+    category_id: int
+    title: str
+    created_at: datetime
+    updated_at: datetime
+    cooking_time: int
+    food_type: str
+    total_portions: int
+    keycloak_user_id: str
+    rating_avg: float
 
     class Config:
-        from_attributes = True
+        orm_mode = True
