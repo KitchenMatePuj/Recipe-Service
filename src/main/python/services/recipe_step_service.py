@@ -1,37 +1,30 @@
 from sqlalchemy.orm import Session
-from src.main.python.models.recipe_step import RecipeStep
+from src.main.python.repository.recipe_step_repository import RecipeStepRepository
 from src.main.python.transformers.recipe_step_transformer import RecipeStepCreate, RecipeStepUpdate
 
+
 def create_recipe_step(db: Session, recipe_id: int, step_data: RecipeStepCreate):
-    new_step = RecipeStep(
-        recipe_id=recipe_id,
-        step_number=step_data.step_number,
-        description=step_data.description,
-    )
-    db.add(new_step)
-    db.commit()
-    db.refresh(new_step)
-    return new_step
+    return RecipeStepRepository.create_step(db, {
+        "recipe_id": recipe_id,
+        "step_number": step_data.step_number,
+        "description": step_data.description
+    })
+
 
 def list_steps_by_recipe(db: Session, recipe_id: int):
-    return db.query(RecipeStep).filter(RecipeStep.recipe_id == recipe_id).order_by(RecipeStep.step_number).all()
+    return RecipeStepRepository.get_steps_by_recipe(db, recipe_id)
+
 
 def get_recipe_step(db: Session, recipe_id: int, step_id: int):
-    return db.query(RecipeStep).filter(
-        RecipeStep.recipe_step_id == step_id,
-        RecipeStep.recipe_id == recipe_id
-    ).first()
+    steps = RecipeStepRepository.get_steps_by_recipe(db, recipe_id)
+    return next((step for step in steps if step.recipe_step_id == step_id), None)
+
 
 def update_recipe_step(db: Session, recipe_id: int, step_id: int, step_update: RecipeStepUpdate):
-    step = db.query(RecipeStep).filter(
-        RecipeStep.recipe_step_id == step_id,
-        RecipeStep.recipe_id == recipe_id
-    ).first()
-
+    step = get_recipe_step(db, recipe_id, step_id)
     if not step:
         return None
 
-    # Apply updates
     if step_update.step_number is not None:
         step.step_number = step_update.step_number
     if step_update.description is not None:
@@ -41,13 +34,9 @@ def update_recipe_step(db: Session, recipe_id: int, step_id: int, step_update: R
     db.refresh(step)
     return step
 
+
 def delete_recipe_step(db: Session, recipe_id: int, step_id: int):
-    step = db.query(RecipeStep).filter(
-        RecipeStep.recipe_step_id == step_id,
-        RecipeStep.recipe_id == recipe_id
-    ).first()
+    step = get_recipe_step(db, recipe_id, step_id)
     if step:
-        db.delete(step)
-        db.commit()
-        return step
+        return RecipeStepRepository.delete_step(db, step.recipe_step_id)
     return None
