@@ -67,4 +67,7 @@ class RecipeRepository:
             func.count(Recipe.recipe_id).label("count")
         ).group_by(Recipe.cooking_time).all()
 
+    @staticmethod
+    def count_total_recipes(db: Session):
+        return db.query(func.count(Recipe.recipe_id)).scalar()
 

@@ -41,4 +41,7 @@ def get_recipe_counts_by_cooking_time(db: Session):
     results = RecipeRepository.count_recipes_by_cooking_time(db)
     return [{"cooking_time": row.cooking_time, "count": row.count} for row in results]
 
+def get_total_recipe_count(db: Session):
+    return {"total_recipes": RecipeRepository.count_total_recipes(db)}
+
 
