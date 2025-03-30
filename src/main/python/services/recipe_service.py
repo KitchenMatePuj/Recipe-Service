@@ -7,45 +7,24 @@ from src.main.python.repository.recipe_repository import RecipeRepository
 
 
 async def create_recipe(db: Session, recipe_data: RecipeRequest):
-    new_recipe = Recipe(**recipe_data.dict())
-    db.add(new_recipe)
-    db.commit()
-    db.refresh(new_recipe)
-
-    message = build_recipe_event(new_recipe, "recipe_created")
-    await rabbit_client.send_message(message)
-
-    return new_recipe
+    return await RecipeRepository.create_recipe(db, recipe_data.dict(exclude_unset=True))
 
 
 def get_recipe(db: Session, recipe_id: int):
-    return db.query(Recipe).filter(Recipe.recipe_id == recipe_id).first()
+    return RecipeRepository.get_recipe(db, recipe_id)
 
 
 def list_recipes(db: Session, skip: int = 0, limit: int = 10):
-    return db.query(Recipe).offset(skip).limit(limit).all()
+    return RecipeRepository.list_recipes(db, skip=skip, limit=limit)
 
 
 async def update_recipe(db: Session, recipe_id: int, recipe_update: RecipeRequest):
-    recipe = db.query(Recipe).filter(Recipe.recipe_id == recipe_id).first()
-    if recipe:
-        for key, value in recipe_update.dict(exclude_unset=True).items():
-            setattr(recipe, key, value)
-        db.commit()
-        db.refresh(recipe)
-
-        message = build_recipe_event(recipe, "recipe_updated")
-        await rabbit_client.send_message(message)
-
-    return recipe
+    return await RecipeRepository.update_recipe(db, recipe_id, recipe_update.dict(exclude_unset=True))
 
 
-def delete_recipe(db: Session, recipe_id: int):
-    recipe = db.query(Recipe).filter(Recipe.recipe_id == recipe_id).first()
-    if recipe:
-        db.delete(recipe)
-        db.commit()
-    return recipe
+async def delete_recipe(db: Session, recipe_id: int):
+    return await RecipeRepository.delete_recipe(db, recipe_id)
+
 
 
 def get_recipes_by_user(db: Session, keycloak_user_id: str):

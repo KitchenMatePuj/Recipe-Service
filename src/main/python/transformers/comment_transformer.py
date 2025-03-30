@@ -3,7 +3,8 @@ from typing import Optional
 import datetime
 
 class CommentBase(BaseModel):
-    author_user_id: int
+    author_user_id: str
+    rating: Optional[float] = None
     text: str
 
 class CommentCreate(CommentBase):

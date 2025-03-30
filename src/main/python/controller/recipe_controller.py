@@ -41,8 +41,8 @@ async def update_recipe_endpoint(recipe_id: int, recipe_update: RecipeRequest, d
 
 
 @router.delete("/{recipe_id}", status_code=204)
-def delete_recipe_endpoint(recipe_id: int, db: Session = Depends(get_db)):
-    deleted_recipe = delete_recipe(db, recipe_id)
+async def delete_recipe_endpoint(recipe_id: int, db: Session = Depends(get_db)):
+    deleted_recipe = await delete_recipe(db, recipe_id)
     if not deleted_recipe:
         raise HTTPException(status_code=404, detail="Recipe not found")
     return
