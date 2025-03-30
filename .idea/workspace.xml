@@ -9,6 +9,7 @@
       <change beforePath="$PROJECT_DIR$/src/main/python/controller/recipe_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/python/controller/recipe_controller.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/python/repository/recipe_repository.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/python/repository/recipe_repository.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/python/services/recipe_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/python/services/recipe_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/python/transformers/recipe_transformer.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/python/transformers/recipe_transformer.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -104,7 +105,7 @@
       <workItem from="1742693211432" duration="2568000" />
       <workItem from="1742701479876" duration="3720000" />
       <workItem from="1743093581594" duration="6698000" />
-      <workItem from="1743340667282" duration="4776000" />
+      <workItem from="1743340667282" duration="11226000" />
     </task>
     <servers />
   </component>

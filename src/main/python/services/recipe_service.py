@@ -1,7 +1,9 @@
+from typing import List
+
 from sqlalchemy.orm import Session
 from src.main.python.models.recipe import Recipe
 from src.main.python.rabbit.rabbit_sender import rabbit_client
-from src.main.python.transformers.recipe_transformer import RecipeRequest, RecipeResponse
+from src.main.python.transformers.recipe_transformer import RecipeRequest, RecipeResponse, RecipeSearchRequest
 from src.main.python.rabbit.events.recipe_events import build_recipe_event
 from src.main.python.repository.recipe_repository import RecipeRepository
 
@@ -32,7 +34,6 @@ def get_recipes_by_user(db: Session, keycloak_user_id: str):
     return [RecipeResponse.model_validate(recipe, from_attributes=True) for recipe in recipes]
 
 
-
 def get_recipes_by_rating(db: Session, min_rating: float, max_rating: float):
     recipes = RecipeRepository.get_recipes_by_rating_range(db, min_rating, max_rating)
     return [RecipeResponse.model_validate(recipe, from_attributes=True) for recipe in recipes]
@@ -45,3 +46,13 @@ def get_total_recipe_count(db: Session):
     return {"total_recipes": RecipeRepository.count_total_recipes(db)}
 
 
+def search_recipes_service(
+    db: Session, search_params: RecipeSearchRequest
+) -> List[RecipeResponse]:
+    recipes = RecipeRepository.search_recipes(
+        db,
+        title=search_params.title,
+        cooking_time=search_params.cooking_time,
+        ingredient=search_params.ingredient
+    )
+    return [RecipeResponse.model_validate(recipe, from_attributes=True) for recipe in recipes]

@@ -28,5 +28,10 @@ class RecipeResponse(BaseModel):
     keycloak_user_id: str
     rating_avg: float
 
+class RecipeSearchRequest(BaseModel):
+    title: Optional[str] = None
+    cooking_time: Optional[int] = None
+    ingredient: Optional[str] = None
+
     class Config:
         orm_mode = True

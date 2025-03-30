@@ -7,9 +7,10 @@ from src.main.python.services.recipe_service import (
     get_recipe,
     list_recipes,
     update_recipe,
-    delete_recipe, get_recipes_by_user, get_recipes_by_rating, get_recipe_counts_by_cooking_time, get_total_recipe_count
+    delete_recipe, get_recipes_by_user, get_recipes_by_rating, get_recipe_counts_by_cooking_time,
+    get_total_recipe_count, search_recipes_service
 )
-from src.main.python.transformers.recipe_transformer import RecipeRequest, RecipeResponse
+from src.main.python.transformers.recipe_transformer import RecipeRequest, RecipeResponse, RecipeSearchRequest
 
 router = APIRouter(prefix="/recipes", tags=["Recipes"])
 
@@ -23,6 +24,12 @@ async def create_recipe_endpoint(recipe: RecipeRequest, db: Session = Depends(ge
 def list_recipes_endpoint(db: Session = Depends(get_db)):
     return list_recipes(db)
 
+@router.get("/search", response_model=List[RecipeResponse])
+def search_recipes_endpoint(
+    search_params: RecipeSearchRequest = Depends(),
+    db: Session = Depends(get_db)
+):
+    return search_recipes_service(db, search_params)
 
 @router.get("/{recipe_id}", response_model=RecipeResponse)
 def get_recipe_endpoint(recipe_id: int, db: Session = Depends(get_db)):

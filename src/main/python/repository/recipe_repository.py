@@ -1,5 +1,7 @@
 from sqlalchemy import func
 from sqlalchemy.orm import Session
+
+from src.main.python.models.ingredient import Ingredient
 from src.main.python.models.recipe import Recipe
 from src.main.python.rabbit.events.recipe_events import build_recipe_event
 from src.main.python.rabbit.rabbit_sender import rabbit_client
@@ -71,3 +73,17 @@ class RecipeRepository:
     def count_total_recipes(db: Session):
         return db.query(func.count(Recipe.recipe_id)).scalar()
 
+    @staticmethod
+    def search_recipes(db: Session, title: str = None, cooking_time: int = None, ingredient: str = None):
+        query = db.query(Recipe)
+
+        if title:
+            query = query.filter(Recipe.title.ilike(f"%{title}%"))
+
+        if cooking_time:
+            query = query.filter(Recipe.cooking_time == cooking_time)
+
+        if ingredient:
+            query = query.join(Recipe.ingredients).filter(Ingredient.name.ilike(f"%{ingredient}%"))
+
+        return query.all()
