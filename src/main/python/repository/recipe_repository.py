@@ -1,3 +1,4 @@
+from sqlalchemy import func
 from sqlalchemy.orm import Session
 from src.main.python.models.recipe import Recipe
 from src.main.python.rabbit.events.recipe_events import build_recipe_event
@@ -58,5 +59,12 @@ class RecipeRepository:
             Recipe.rating_avg >= min_rating,
             Recipe.rating_avg <= max_rating
         ).all()
+
+    @staticmethod
+    def count_recipes_by_cooking_time(db: Session):
+        return db.query(
+            Recipe.cooking_time,
+            func.count(Recipe.recipe_id).label("count")
+        ).group_by(Recipe.cooking_time).all()
 
 
