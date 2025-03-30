@@ -30,3 +30,12 @@ async def delete_recipe(db: Session, recipe_id: int):
 def get_recipes_by_user(db: Session, keycloak_user_id: str):
     recipes = RecipeRepository.get_recipes_by_keycloak_user_id(db, keycloak_user_id)
     return [RecipeResponse.model_validate(recipe, from_attributes=True) for recipe in recipes]
+
+
+
+def get_recipes_by_rating(db: Session, min_rating: float, max_rating: float):
+    recipes = RecipeRepository.get_recipes_by_rating_range(db, min_rating, max_rating)
+    return [RecipeResponse.model_validate(recipe, from_attributes=True) for recipe in recipes]
+
+
+

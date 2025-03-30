@@ -7,7 +7,7 @@ from src.main.python.services.recipe_service import (
     get_recipe,
     list_recipes,
     update_recipe,
-    delete_recipe, get_recipes_by_user
+    delete_recipe, get_recipes_by_user, get_recipes_by_rating
 )
 from src.main.python.transformers.recipe_transformer import RecipeRequest, RecipeResponse
 
@@ -50,4 +50,8 @@ async def delete_recipe_endpoint(recipe_id: int, db: Session = Depends(get_db)):
 @router.get("/user/{keycloak_user_id}", response_model=List[RecipeResponse])
 def list_recipes_by_user(keycloak_user_id: str, db: Session = Depends(get_db)):
     return get_recipes_by_user(db, keycloak_user_id)
+
+@router.get("/ratings/filter", response_model=List[RecipeResponse])
+def list_recipes_by_rating(min_rating: float = 4.0, max_rating: float = 5.0, db: Session = Depends(get_db)):
+    return get_recipes_by_rating(db, min_rating, max_rating)
 

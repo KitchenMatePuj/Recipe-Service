@@ -52,3 +52,11 @@ class RecipeRepository:
     def get_recipes_by_keycloak_user_id(db: Session, keycloak_user_id: str):
         return db.query(Recipe).filter(Recipe.keycloak_user_id == keycloak_user_id).all()
 
+    @staticmethod
+    def get_recipes_by_rating_range(db: Session, min_rating: float, max_rating: float):
+        return db.query(Recipe).filter(
+            Recipe.rating_avg >= min_rating,
+            Recipe.rating_avg <= max_rating
+        ).all()
+
+
