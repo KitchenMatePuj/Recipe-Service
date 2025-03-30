@@ -37,5 +37,8 @@ def get_recipes_by_rating(db: Session, min_rating: float, max_rating: float):
     recipes = RecipeRepository.get_recipes_by_rating_range(db, min_rating, max_rating)
     return [RecipeResponse.model_validate(recipe, from_attributes=True) for recipe in recipes]
 
+def get_recipe_counts_by_cooking_time(db: Session):
+    results = RecipeRepository.count_recipes_by_cooking_time(db)
+    return [{"cooking_time": row.cooking_time, "count": row.count} for row in results]
 
 

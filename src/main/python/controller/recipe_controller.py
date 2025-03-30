@@ -7,7 +7,7 @@ from src.main.python.services.recipe_service import (
     get_recipe,
     list_recipes,
     update_recipe,
-    delete_recipe, get_recipes_by_user, get_recipes_by_rating
+    delete_recipe, get_recipes_by_user, get_recipes_by_rating, get_recipe_counts_by_cooking_time
 )
 from src.main.python.transformers.recipe_transformer import RecipeRequest, RecipeResponse
 
@@ -54,4 +54,8 @@ def list_recipes_by_user(keycloak_user_id: str, db: Session = Depends(get_db)):
 @router.get("/ratings/filter", response_model=List[RecipeResponse])
 def list_recipes_by_rating(min_rating: float = 4.0, max_rating: float = 5.0, db: Session = Depends(get_db)):
     return get_recipes_by_rating(db, min_rating, max_rating)
+
+@router.get("/statistics/cooking-time")
+def recipe_count_by_cooking_time(db: Session = Depends(get_db)):
+    return get_recipe_counts_by_cooking_time(db)
 
