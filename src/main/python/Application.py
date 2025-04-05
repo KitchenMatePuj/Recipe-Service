@@ -23,7 +23,7 @@ app = FastAPI(
 # 🚀 Habilitar CORS para permitir llamadas desde Angular (localhost:4200)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:4200"],
+    allow_origins=["http://localhost:4200", 'http://localhost:8080'],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

@@ -10,7 +10,7 @@ from src.main.python.repository.recipe_repository import RecipeRepository
 
 async def create_recipe(db: Session, recipe_data: RecipeRequest):
     new_recipe = await RecipeRepository.create_recipe(db, recipe_data.dict(exclude_unset=True))
-    return RecipeResponse.from_orm(new_recipe)
+    return RecipeResponse.model_validate(new_recipe, from_attributes=True)
 
 
 def get_recipe(db: Session, recipe_id: int):
@@ -56,4 +56,4 @@ def search_recipes_service(
         cooking_time=search_params.cooking_time,
         ingredient=search_params.ingredient
     )
-    return [RecipeResponse.parse_obj(recipe) for recipe in recipes]
+    return [RecipeResponse.model_validate(recipe, from_attributes=True) for recipe in recipes]
