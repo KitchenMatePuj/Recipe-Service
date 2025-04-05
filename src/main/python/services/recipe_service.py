@@ -56,4 +56,4 @@ def search_recipes_service(
         cooking_time=search_params.cooking_time,
         ingredient=search_params.ingredient
     )
-    return [RecipeResponse.parse_obj(recipe) for recipe in recipes]
+    return [RecipeResponse.model_validate(recipe, from_attributes=True) for recipe in recipes]

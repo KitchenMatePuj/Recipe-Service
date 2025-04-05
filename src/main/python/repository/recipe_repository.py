@@ -43,13 +43,17 @@ class RecipeRepository:
 
     @staticmethod
     async def delete_recipe(db: Session, recipe_id: int):
-            recipe = db.query(Recipe).filter(Recipe.recipe_id == recipe_id).first()
-            if recipe:
-                db.delete(recipe)
-                db.commit()
-                message = build_recipe_event(recipe_id, "recipe_deleted")
-                await rabbit_client.send_message(message)
-            return recipe
+        recipe = db.query(Recipe).filter(Recipe.recipe_id == recipe_id).first()
+        if recipe:
+            _ = recipe.category.name if recipe.category else None
+
+            message = build_recipe_event(recipe, "recipe_deleted")
+            await rabbit_client.send_message(message)
+
+            db.delete(recipe)
+            db.commit()
+
+        return recipe
 
     @staticmethod
     def get_recipes_by_keycloak_user_id(db: Session, keycloak_user_id: str):
