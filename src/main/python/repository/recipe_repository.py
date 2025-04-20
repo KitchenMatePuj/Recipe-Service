@@ -5,7 +5,7 @@ from src.main.python.models.ingredient import Ingredient
 from src.main.python.models.recipe import Recipe
 from src.main.python.rabbit.events.recipe_events import build_recipe_event
 from src.main.python.rabbit.rabbit_sender import rabbit_client
-
+from src.main.python.transformers.recipe_transformer import RecipeResponse
 
 class RecipeRepository:
     @staticmethod
@@ -29,18 +29,27 @@ class RecipeRepository:
         return db.query(Recipe).offset(skip).limit(limit).all()
 
     @staticmethod
-    async def update_recipe(db: Session, recipe_id: int, recipe_update: dict):
-            recipe = db.query(Recipe).filter(Recipe.recipe_id == recipe_id).first()
-            if recipe:
-                for key, value in recipe_update.items():
-                    setattr(recipe, key, value)
-                db.commit()
-                db.refresh(recipe)
+    async def update_recipe(db: Session, recipe_id: int, data: dict):
+        # ▶︎  localiza la receta
+        recipe = db.query(Recipe).filter(Recipe.recipe_id == recipe_id).first()
+        if recipe is None:
+            return None  # o lanza 404
 
-                message = build_recipe_event(recipe_update, "recipe_updated")
-                await rabbit_client.send_message(message)
-            return recipe
+        # ▶︎  aplica sólo los campos recibidos
+        for key, value in data.items():
+            setattr(recipe, key, value)
 
+        db.commit()
+        db.refresh(recipe)  # ←  ahora recipe.category está poblado
+
+        # ▶︎  publica el evento usando el ORM
+        message = build_recipe_event(recipe, "recipe_updated")
+        await rabbit_client.send_message(message)
+
+        # ▶︎  devuelve el DTO que espera FastAPI
+        return RecipeResponse.model_validate(recipe, from_attributes=True)
+
+        return recipe_dto
     @staticmethod
     async def delete_recipe(db: Session, recipe_id: int):
         recipe = db.query(Recipe).filter(Recipe.recipe_id == recipe_id).first()
