@@ -21,8 +21,18 @@ def list_recipes(db: Session, skip: int = 0, limit: int = 10):
     return RecipeRepository.list_recipes(db, skip=skip, limit=limit)
 
 
-async def update_recipe(db: Session, recipe_id: int, recipe_update: RecipeRequest):
-    return await RecipeRepository.update_recipe(db, recipe_id, recipe_update.dict(exclude_unset=True))
+async def update_recipe(
+    db: Session,
+    recipe_id: int,
+    recipe_update: RecipeRequest            # si usas un esquema distinto, cámbialo
+) -> RecipeResponse | None:                 # ⬅ devuelve el DTO de salida
+    updated = await RecipeRepository.update_recipe(
+        db,
+        recipe_id,
+        recipe_update.dict(exclude_unset=True),
+    )
+    # `update_recipe` ya devuelve el DTO; no hace falta transformar de nuevo
+    return updated
 
 
 async def delete_recipe(db: Session, recipe_id: int):

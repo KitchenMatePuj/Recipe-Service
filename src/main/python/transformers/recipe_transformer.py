@@ -15,6 +15,8 @@ class RecipeRequest(BaseModel):
     total_portions: int
     keycloak_user_id: str
     rating_avg: float = 0.0
+    image_url: Optional[str] = None
+
 
 class RecipeResponse(BaseModel):
     recipe_id: int
@@ -27,6 +29,7 @@ class RecipeResponse(BaseModel):
     total_portions: int
     keycloak_user_id: str
     rating_avg: float
+    image_url: Optional[str] = None
 
     class Config:
         orm_mode = True
