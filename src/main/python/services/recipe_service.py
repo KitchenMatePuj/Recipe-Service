@@ -17,7 +17,7 @@ def get_recipe(db: Session, recipe_id: int):
     return RecipeRepository.get_recipe(db, recipe_id)
 
 
-def list_recipes(db: Session, skip: int = 0, limit: int = 10):
+def list_recipes(db: Session, skip: int = 0, limit: int = 1000):
     return RecipeRepository.list_recipes(db, skip=skip, limit=limit)
 
 
