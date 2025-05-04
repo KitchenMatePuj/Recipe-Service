@@ -21,3 +21,6 @@ async def update_ingredient(db: Session, ingredient_id: int, ingredient_update: 
 
 async def delete_ingredient(db: Session, ingredient_id: int):
     return await IngredientRepository.delete_ingredient(db, ingredient_id)
+
+def get_ingredients_by_recipe(db: Session, recipe_id: int):
+    return IngredientRepository.get_ingredients_by_recipe(db, recipe_id)

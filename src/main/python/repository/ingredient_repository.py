@@ -49,3 +49,7 @@ class IngredientRepository:
             message = build_ingredient_event(ingredient, "ingredient_deleted")
             await rabbit_client.send_message(message)
         return ingredient
+
+    @staticmethod
+    def get_ingredients_by_recipe(db: Session, recipe_id: int):
+        return db.query(Ingredient).filter(Ingredient.recipe_id == recipe_id).all()
