@@ -10,6 +10,8 @@ class CommentBase(BaseModel):
 class CommentCreate(CommentBase):
     pass
 
+
+
 class CommentResponse(CommentBase):
     comment_id: int
     recipe_id: int
@@ -17,3 +19,4 @@ class CommentResponse(CommentBase):
 
     class Config:
         orm_mode = True
+

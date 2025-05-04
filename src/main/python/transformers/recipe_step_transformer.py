@@ -26,3 +26,4 @@ class RecipeStepResponse(BaseModel):
 
     class Config:
         from_attributes = True
+
