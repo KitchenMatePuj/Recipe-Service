@@ -1,5 +1,5 @@
 from sqlalchemy import func
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, selectinload
 
 from src.main.python.models.ingredient import Ingredient
 from src.main.python.models.recipe import Recipe
@@ -101,3 +101,16 @@ class RecipeRepository:
 
         return query.all()
 
+    @staticmethod
+    def get_full_recipe(db: Session, recipe_id: int):
+        """Devuelve receta + steps + ingredients + comments en una sola ida."""
+        return (
+            db.query(Recipe)
+            .options(
+                selectinload(Recipe.steps),
+                selectinload(Recipe.ingredients),
+                selectinload(Recipe.comments)
+            )
+            .filter(Recipe.recipe_id == recipe_id)
+            .first()
+        )

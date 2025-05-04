@@ -8,9 +8,10 @@ from src.main.python.services.recipe_service import (
     list_recipes,
     update_recipe,
     delete_recipe, get_recipes_by_user, get_recipes_by_rating, get_recipe_counts_by_cooking_time,
-    get_total_recipe_count, search_recipes_service
+    get_total_recipe_count, search_recipes_service, get_full_recipe
 )
-from src.main.python.transformers.recipe_transformer import RecipeRequest, RecipeResponse, RecipeSearchRequest
+from src.main.python.transformers.recipe_transformer import RecipeRequest, RecipeResponse, RecipeSearchRequest, \
+    FullRecipeResponse
 
 router = APIRouter(prefix="/recipes", tags=["Recipes"])
 
@@ -53,6 +54,14 @@ async def delete_recipe_endpoint(recipe_id: int, db: Session = Depends(get_db)):
     if not deleted_recipe:
         raise HTTPException(status_code=404, detail="Recipe not found")
     return
+
+@router.get("/{recipe_id}/full", response_model=FullRecipeResponse, tags=["Recipes"])
+def get_full_recipe_endpoint(recipe_id: int,
+                             db: Session = Depends(get_db)):
+    """
+    Devuelve receta + pasos + ingredientes + comentarios.
+    """
+    return get_full_recipe(db, recipe_id)
 
 @router.get("/user/{keycloak_user_id}", response_model=List[RecipeResponse])
 def list_recipes_by_user(keycloak_user_id: str, db: Session = Depends(get_db)):

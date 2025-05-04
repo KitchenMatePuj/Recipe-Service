@@ -1,9 +1,13 @@
+from http.client import HTTPException
 from typing import List
 
 from sqlalchemy.orm import Session
+from starlette import status
+
 from src.main.python.models.recipe import Recipe
 from src.main.python.rabbit.rabbit_sender import rabbit_client
-from src.main.python.transformers.recipe_transformer import RecipeRequest, RecipeResponse, RecipeSearchRequest
+from src.main.python.transformers.recipe_transformer import RecipeRequest, RecipeResponse, RecipeSearchRequest, \
+    FullRecipeResponse
 from src.main.python.rabbit.events.recipe_events import build_recipe_event
 from src.main.python.repository.recipe_repository import RecipeRepository
 
@@ -38,7 +42,14 @@ async def update_recipe(
 async def delete_recipe(db: Session, recipe_id: int):
     return await RecipeRepository.delete_recipe(db, recipe_id)
 
-
+def get_full_recipe(db: Session, recipe_id: int) -> FullRecipeResponse:
+    rec = RecipeRepository.get_full_recipe(db, recipe_id)
+    if not rec:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Recipe {recipe_id} not found"
+        )
+    return FullRecipeResponse.model_validate(rec, from_attributes=True)
 
 def get_recipes_by_user(db: Session, keycloak_user_id: str):
     recipes = RecipeRepository.get_recipes_by_keycloak_user_id(db, keycloak_user_id)
