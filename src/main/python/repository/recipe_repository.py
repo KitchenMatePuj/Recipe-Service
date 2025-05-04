@@ -100,3 +100,4 @@ class RecipeRepository:
             query = query.join(Recipe.ingredients).filter(Ingredient.name.ilike(f"%{ingredient}%"))
 
         return query.all()
+

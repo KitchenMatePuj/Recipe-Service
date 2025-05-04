@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import List
 from src.main.python.config.DatabaseConfig import get_db
+from src.main.python.services import ingredient_service
 from src.main.python.services.ingredient_service import (
     create_ingredient,
     get_ingredient,
@@ -46,3 +47,7 @@ async def delete_ingredient_endpoint(ingredient_id: int, db: Session = Depends(g
     if not deleted_ingredient:
         raise HTTPException(status_code=404, detail="Ingredient not found")
     return
+
+@router.get("/by-recipe/{recipe_id}", response_model=List[IngredientResponse])
+def get_ingredients_by_recipe_endpoint(recipe_id: int, db: Session = Depends(get_db)):
+    return ingredient_service.get_ingredients_by_recipe(db, recipe_id)
