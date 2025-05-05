@@ -6,11 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="ee05629e-6a6a-45c2-9c7b-d24b6452f08c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/e1afb9d1-0384-4601-a8a9-b0f8cbf14716.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/e1afb9d1-0384-4601-a8a9-b0f8cbf14716.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/python/models/recipe.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/python/models/recipe.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/python/transformers/recipe_transformer.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/python/transformers/recipe_transformer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/python/config/DatabaseConfig.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/python/config/DatabaseConfig.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -120,6 +117,7 @@
       <workItem from="1745131196359" duration="92000" />
       <workItem from="1746393603972" duration="3711000" />
       <workItem from="1746428301292" duration="182000" />
+      <workItem from="1746467740503" duration="2411000" />
     </task>
     <servers />
   </component>
