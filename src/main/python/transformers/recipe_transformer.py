@@ -16,6 +16,7 @@ class RecipeRequest(BaseModel):
     keycloak_user_id: str
     rating_avg: float = 0.0
     image_url: Optional[str] = None
+    video_url: Optional[str] = None
 
 
 class RecipeResponse(BaseModel):
@@ -30,6 +31,7 @@ class RecipeResponse(BaseModel):
     keycloak_user_id: str
     rating_avg: float
     image_url: Optional[str] = None
+    video_url: Optional[str] = None
 
 class FullIngredient(BaseModel):
     ingredient_id: int
@@ -60,6 +62,7 @@ class FullRecipeResponse(BaseModel):
     keycloak_user_id: str
     rating_avg: float
     image_url: Optional[str]
+    video_url: Optional[str] = None
 
         # --- anidados ------------------------------
     steps: List[FullStep]
