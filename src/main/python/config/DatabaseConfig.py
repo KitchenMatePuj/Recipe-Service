@@ -3,12 +3,11 @@ from sqlalchemy import create_engine, event
 from sqlalchemy.orm import sessionmaker, declarative_base
 from src.main.python.ApplicationProperties import ApplicationProperties
 
-# --- URL tal cual (ya con ?charset=utf8mb4, si la tienes) ------------
 DATABASE_URL = ApplicationProperties.DATABASE_URL
 
-# --- connect_args:  SQLite vs. MySQL/MariaDB -------------------------
+# --- connect_args ----------------------------------------------------
 connect_args = (
-    {"check_same_thread": False}            # solo SQLite
+    {"check_same_thread": False}                          # solo SQLite
     if DATABASE_URL.startswith("sqlite")
     else {
         "charset": "utf8mb4",
@@ -16,15 +15,15 @@ connect_args = (
     }
 )
 
-# --- ENGINE ----------------------------------------------------------
+# --- engine ----------------------------------------------------------
 engine = create_engine(
     DATABASE_URL,
     pool_pre_ping=True,
     future=True,
-    connect_args=connect_args           # ←  sin “encoding”
+    connect_args=connect_args
 )
 
-# --- (opcional) red de seguridad absoluta ---------------------------
+# red de seguridad (por si el driver ignora init_command)
 @event.listens_for(engine, "connect")
 def _force_utf8(dbapi_conn, _):
     cursor = dbapi_conn.cursor()
@@ -32,5 +31,19 @@ def _force_utf8(dbapi_conn, _):
     cursor.close()
 
 # --- ORM boilerplate -------------------------------------------------
-SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False, future=True)
+SessionLocal = sessionmaker(
+    bind=engine,
+    autoflush=False,
+    autocommit=False,
+    future=True
+)
 Base = declarative_base()
+
+# --- ESTA FUNCIÓN ES IMPRESCINDIBLE ---------------------------------
+def get_db():
+    """Dependency que inyectan todos los controladores."""
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
