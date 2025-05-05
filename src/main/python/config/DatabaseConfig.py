@@ -1,47 +1,36 @@
-from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+# src/main/python/config/DatabaseConfig.py
+from sqlalchemy import create_engine, event
+from sqlalchemy.orm import sessionmaker, declarative_base
 from src.main.python.ApplicationProperties import ApplicationProperties
 
-from src.main.python.models.recipe import Recipe
-from src.main.python.models.ingredient import Ingredient
-from src.main.python.models.comment import Comment
-from src.main.python.models.category import Category
-from src.main.python.models.recipe_step import RecipeStep
+# --- URL tal cual (ya con ?charset=utf8mb4, si la tienes) ------------
+DATABASE_URL = ApplicationProperties.DATABASE_URL
 
-
+# --- connect_args:  SQLite vs. MySQL/MariaDB -------------------------
 connect_args = (
-    {"check_same_thread": False}                     # ← solo si es SQLite
-    if "sqlite" in ApplicationProperties.DATABASE_URL
+    {"check_same_thread": False}            # solo SQLite
+    if DATABASE_URL.startswith("sqlite")
     else {
         "charset": "utf8mb4",
         "init_command": "SET NAMES utf8mb4"
     }
 )
 
+# --- ENGINE ----------------------------------------------------------
 engine = create_engine(
-    ApplicationProperties.DATABASE_URL,
+    DATABASE_URL,
     pool_pre_ping=True,
     future=True,
-    encoding="utf8mb4",          # ← refuerzo extra
-    connect_args=connect_args
+    connect_args=connect_args           # ←  sin “encoding”
 )
 
+# --- (opcional) red de seguridad absoluta ---------------------------
+@event.listens_for(engine, "connect")
+def _force_utf8(dbapi_conn, _):
+    cursor = dbapi_conn.cursor()
+    cursor.execute("SET NAMES utf8mb4")
+    cursor.close()
 
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-
-
+# --- ORM boilerplate -------------------------------------------------
+SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False, future=True)
 Base = declarative_base()
-
-Category.__table__.create(bind=engine, checkfirst=True)
-Recipe.__table__.create(bind=engine, checkfirst=True)
-Ingredient.__table__.create(bind=engine, checkfirst=True)
-Comment.__table__.create(bind=engine, checkfirst=True)
-RecipeStep.__table__.create(bind=engine, checkfirst=True)
-
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
