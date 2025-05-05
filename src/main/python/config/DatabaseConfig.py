@@ -11,7 +11,8 @@ from src.main.python.models.recipe_step import RecipeStep
 
 
 engine = create_engine(
-    ApplicationProperties.DATABASE_URL, connect_args={"check_same_thread": False} if "sqlite" in ApplicationProperties.DATABASE_URL else {}
+    ApplicationProperties.DATABASE_URL, connect_args={"check_same_thread": False} if "sqlite" in ApplicationProperties.DATABASE_URL else {"charset": "utf8mb4",                 # habla UTF-8 de 4 bytes
+        "init_command": "SET NAMES utf8mb4"}
 )
 
 
