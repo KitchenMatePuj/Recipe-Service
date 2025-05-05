@@ -23,6 +23,12 @@ engine = create_engine(
     connect_args=connect_args
 )
 
+@event.listens_for(engine, "connect")
+def _force_utf8(dbapi_connection, _):
+    cursor = dbapi_connection.cursor()
+    cursor.execute("SET NAMES utf8mb4")
+    cursor.close()
+
 # red de seguridad (por si el driver ignora init_command)
 @event.listens_for(engine, "connect")
 def _force_utf8(dbapi_conn, _):
