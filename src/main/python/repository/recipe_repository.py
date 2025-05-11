@@ -13,6 +13,7 @@ class RecipeRepository:
     @staticmethod
     async def create_recipe(db: Session, recipe_data: dict):
             new_recipe = Recipe(**recipe_data)
+            print(f"📦 [DAO] Guardando título: {recipe_data['title']} → {list(recipe_data['title'].encode('utf-8'))}")
             db.add(new_recipe)
             db.commit()
             db.refresh(new_recipe)
@@ -54,7 +55,6 @@ class RecipeRepository:
         # ▶︎  devuelve el DTO que espera FastAPI
         return RecipeResponse.model_validate(recipe, from_attributes=True)
 
-        return recipe_dto
     @staticmethod
     async def delete_recipe(db: Session, recipe_id: int):
         recipe = db.query(Recipe).filter(Recipe.recipe_id == recipe_id).first()
