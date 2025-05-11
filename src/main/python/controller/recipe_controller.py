@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import List
 
-from src.main.python.Application import UTF8JSONResponse
+from src.main.python.utils.responses import UTF8JSONResponse
 from src.main.python.config.DatabaseConfig import get_db
 from src.main.python.services.recipe_service import (
     create_recipe,
