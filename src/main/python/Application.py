@@ -1,3 +1,5 @@
+import json
+
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware  # <--- Importar CORS
@@ -16,11 +18,21 @@ from src.main.python.controller.recipe_step_controller import router as recipe_s
 # Crear tablas
 Base.metadata.create_all(bind=engine)
 
+class UTF8JSONResponse(JSONResponse):
+    def render(self, content: any) -> bytes:
+        return json.dumps(
+            content,
+            ensure_ascii=False,
+            allow_nan=False,
+            indent=None,
+            separators=(",", ":")
+        ).encode("utf-8")
+
 app = FastAPI(
     title="Recipe Application API",
     description="A simple API for managing recipes, categories, ingredients, and comments.",
     version="1.0.0",
-    default_response_class=JSONResponse
+    default_response_class=UTF8JSONResponse
 )
 
 app.add_middleware(LogRequestBody)
