@@ -1,3 +1,5 @@
+import logging
+
 from sqlalchemy import func
 from sqlalchemy.orm import Session, selectinload
 
@@ -17,6 +19,9 @@ class RecipeRepository:
 
             message = build_recipe_event(new_recipe, "recipe_created")
             await rabbit_client.send_message(message)
+
+            # recipe_repository.py  (create_recipe)
+            logging.warning("💾 [DAO] title = %s", recipe_data["title"])
 
             return new_recipe
 
