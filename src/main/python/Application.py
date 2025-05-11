@@ -1,8 +1,10 @@
 from fastapi import FastAPI
+from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware  # <--- Importar CORS
 from src.main.python.config.DatabaseConfig import engine
 from src.main.python.middlewares.log_body import LogRequestBody
 from src.main.python.models import Base
+
 
 # Importar tus routers
 from src.main.python.controller.comment_controller import router as comment_router
@@ -18,6 +20,7 @@ app = FastAPI(
     title="Recipe Application API",
     description="A simple API for managing recipes, categories, ingredients, and comments.",
     version="1.0.0",
+    default_response_class=JSONResponse
 )
 
 app.add_middleware(LogRequestBody)
