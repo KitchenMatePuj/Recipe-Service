@@ -11,9 +11,11 @@ from src.main.python.transformers.recipe_transformer import RecipeRequest, Recip
     FullRecipeResponse
 from src.main.python.rabbit.events.recipe_events import build_recipe_event
 from src.main.python.repository.recipe_repository import RecipeRepository
+from src.main.python.utils.responses import fix_encoding
 
 
 async def create_recipe(db: Session, recipe_data: RecipeRequest):
+    recipe_data.title = fix_encoding(recipe_data.title)
     new_recipe = await RecipeRepository.create_recipe(db, recipe_data.dict(exclude_unset=True))
     print(f"🟢 [SERVICE] recipe.title = {recipe_data.title} → {list(recipe_data.title.encode('utf-8'))}")
 
@@ -32,7 +34,8 @@ async def update_recipe(
     db: Session,
     recipe_id: int,
     recipe_update: RecipeRequest            # si usas un esquema distinto, cámbialo
-) -> RecipeResponse | None:                 # ⬅ devuelve el DTO de salida
+) -> RecipeResponse | None:
+    recipe_update.title = fix_encoding(recipe_update.title)# ⬅ devuelve el DTO de salida
     updated = await RecipeRepository.update_recipe(
         db,
         recipe_id,

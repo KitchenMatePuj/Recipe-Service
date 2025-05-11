@@ -18,6 +18,7 @@ from src.main.python.transformers.recipe_transformer import RecipeRequest, Recip
 router = APIRouter(prefix="/recipes", tags=["Recipes"])
 
 
+
 @router.post("/", response_class=UTF8JSONResponse)
 async def create_recipe_endpoint(recipe: RecipeRequest, db: Session = Depends(get_db)):
     recipe_created = await create_recipe(db, recipe)

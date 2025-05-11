@@ -10,3 +10,9 @@ class UTF8JSONResponse(JSONResponse):
             indent=None,
             separators=(",", ":")
         ).encode("utf-8")
+
+def fix_encoding(text):
+    try:
+        return text.encode('latin1').decode('utf-8')
+    except:
+        return text
