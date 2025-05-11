@@ -4,6 +4,7 @@ from typing import List
 from sqlalchemy.orm import Session
 from starlette import status
 
+from src.main.python.models import recipe
 from src.main.python.models.recipe import Recipe
 from src.main.python.rabbit.rabbit_sender import rabbit_client
 from src.main.python.transformers.recipe_transformer import RecipeRequest, RecipeResponse, RecipeSearchRequest, \
@@ -14,6 +15,8 @@ from src.main.python.repository.recipe_repository import RecipeRepository
 
 async def create_recipe(db: Session, recipe_data: RecipeRequest):
     new_recipe = await RecipeRepository.create_recipe(db, recipe_data.dict(exclude_unset=True))
+    print(f"🟢 [SERVICE] recipe.title = {recipe_data.title} → {list(recipe_data.title.encode('utf-8'))}")
+
     return RecipeResponse.model_validate(new_recipe, from_attributes=True)
 
 
