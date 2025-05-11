@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
-from src.main.python.transformers.ingredient_transformer import IngredientCreate, IngredientUpdate
+from src.main.python.transformers.ingredient_transformer import IngredientCreate, IngredientUpdate, IngredientResponse
 from src.main.python.repository.ingredient_repository import IngredientRepository
+from src.main.python.utils.responses import fix_encoding
 
 
 async def create_ingredient(db: Session, ingredient_data: IngredientCreate):
@@ -23,4 +24,15 @@ async def delete_ingredient(db: Session, ingredient_id: int):
     return await IngredientRepository.delete_ingredient(db, ingredient_id)
 
 def get_ingredients_by_recipe(db: Session, recipe_id: int):
-    return IngredientRepository.get_ingredients_by_recipe(db, recipe_id)
+    ingredients = IngredientRepository.get_ingredients_by_recipe(db, recipe_id)
+    return [
+        IngredientResponse.model_validate(
+            {
+                "ingredient_id": i.ingredient_id,
+                "name": fix_encoding(i.name),
+                "measurement_unit": fix_encoding(i.measurement_unit),
+                "recipe_id": i.recipe_id,
+            }
+        )
+        for i in ingredients
+    ]
