@@ -14,19 +14,10 @@ from src.main.python.controller.ingredient_controller import router as ingredien
 from src.main.python.controller.category_controller import router as category_router
 from src.main.python.controller.recipe_controller import router as recipe_router
 from src.main.python.controller.recipe_step_controller import router as recipe_step_router
+from src.main.python.utils.responses import UTF8JSONResponse
 
 # Crear tablas
 Base.metadata.create_all(bind=engine)
-
-class UTF8JSONResponse(JSONResponse):
-    def render(self, content: any) -> bytes:
-        return json.dumps(
-            content,
-            ensure_ascii=False,
-            allow_nan=False,
-            indent=None,
-            separators=(",", ":")
-        ).encode("utf-8")
 
 app = FastAPI(
     title="Recipe Application API",
