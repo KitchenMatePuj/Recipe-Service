@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware  # <--- Importar CORS
 from src.main.python.config.DatabaseConfig import engine
+from src.main.python.middlewares.log_body import LogRequestBody
 from src.main.python.models import Base
 
 # Importar tus routers
@@ -18,6 +19,8 @@ app = FastAPI(
     description="A simple API for managing recipes, categories, ingredients, and comments.",
     version="1.0.0",
 )
+
+app.add_middleware(LogRequestBody)
 
 # ---------- AÑADIR ESTE BLOQUE PARA HABILITAR CORS ----------
 app.add_middleware(
