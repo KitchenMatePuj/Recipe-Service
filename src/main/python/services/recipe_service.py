@@ -59,7 +59,9 @@ def get_full_recipe(db: Session, recipe_id: int) -> FullRecipeResponse:
 
 def get_recipes_by_user(db: Session, keycloak_user_id: str):
     recipes = RecipeRepository.get_recipes_by_keycloak_user_id(db, keycloak_user_id)
-    return [RecipeResponse.model_validate(recipe, from_attributes=True) for recipe in recipes]
+    for r in recipes:
+        r.title = fix_encoding(r.title)
+    return [RecipeResponse.model_validate(r, from_attributes=True) for r in recipes]
 
 
 def get_recipes_by_rating(db: Session, min_rating: float, max_rating: float):
