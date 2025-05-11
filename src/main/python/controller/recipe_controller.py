@@ -1,6 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import List
+
+from src.main.python.Application import UTF8JSONResponse
 from src.main.python.config.DatabaseConfig import get_db
 from src.main.python.services.recipe_service import (
     create_recipe,
@@ -16,9 +18,10 @@ from src.main.python.transformers.recipe_transformer import RecipeRequest, Recip
 router = APIRouter(prefix="/recipes", tags=["Recipes"])
 
 
-@router.post("/", response_model=RecipeResponse)
+@router.post("/", response_class=UTF8JSONResponse)
 async def create_recipe_endpoint(recipe: RecipeRequest, db: Session = Depends(get_db)):
-    return await create_recipe(db, recipe)
+    recipe_created = await create_recipe(db, recipe)
+    return recipe_created.model_dump()
 
 
 @router.get("/", response_model=List[RecipeResponse])
