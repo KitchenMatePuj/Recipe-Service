@@ -18,7 +18,7 @@ class RabbitMQClient:
 
         # Declaramos la cola
         await self.channel.declare_queue(self.queue_name, durable=True)
-        print(f"✅ Conectado a RabbitMQ - Cola: {self.queue_name}")
+        print(f"Conectado a RabbitMQ - Cola: {self.queue_name}")
 
     async def send_message(self, message: dict):
         """Publica un mensaje en la cola."""
@@ -30,7 +30,7 @@ class RabbitMQClient:
             aio_pika.Message(body=body),
             routing_key=self.queue_name,
         )
-        print(f"📤 Mensaje enviado: {message}")
+        print(f"Mensaje enviado: {message}")
 
     async def consume_messages(self, callback):
         """Consume mensajes de la cola y ejecuta el callback."""
@@ -41,14 +41,14 @@ class RabbitMQClient:
         async for message in queue:
             async with message.process():
                 data = json.loads(message.body)
-                print(f"📥 Mensaje recibido: {data}")
+                print(f"Mensaje recibido: {data}")
                 await callback(data)
 
     async def close(self):
         """Cierra la conexión con RabbitMQ."""
         if self.connection:
             await self.connection.close()
-            print("❌ Conexión cerrada")
+            print("Conexión cerrada")
 
 
 rabbit_client = RabbitMQClient()
