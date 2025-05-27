@@ -17,7 +17,7 @@ from src.main.python.utils.responses import fix_encoding
 async def create_recipe(db: Session, recipe_data: RecipeRequest):
     recipe_data.title = fix_encoding(recipe_data.title)
     new_recipe = await RecipeRepository.create_recipe(db, recipe_data.dict(exclude_unset=True))
-    print(f"🟢 [SERVICE] recipe.title = {recipe_data.title} → {list(recipe_data.title.encode('utf-8'))}")
+    print(f"[SERVICE] recipe.title = {recipe_data.title} → {list(recipe_data.title.encode('utf-8'))}")
 
     return RecipeResponse.model_validate(new_recipe, from_attributes=True)
 
@@ -33,15 +33,14 @@ def list_recipes(db: Session, skip: int = 0, limit: int = 1000):
 async def update_recipe(
     db: Session,
     recipe_id: int,
-    recipe_update: RecipeRequest            # si usas un esquema distinto, cámbialo
+    recipe_update: RecipeRequest
 ) -> RecipeResponse | None:
-    recipe_update.title = fix_encoding(recipe_update.title)# ⬅ devuelve el DTO de salida
+    recipe_update.title = fix_encoding(recipe_update.title)
     updated = await RecipeRepository.update_recipe(
         db,
         recipe_id,
         recipe_update.dict(exclude_unset=True),
     )
-    # `update_recipe` ya devuelve el DTO; no hace falta transformar de nuevo
     return updated
 
 
